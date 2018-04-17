@@ -12,7 +12,7 @@ class Project extends Model
      * @var string
      */
     protected $table = 'projects';
-    protected $fillable = ['status', 'start_date', 'due_date'];
+    protected $guarded = [];
 
     public function path() {
         return '/projects/' . $this->id;

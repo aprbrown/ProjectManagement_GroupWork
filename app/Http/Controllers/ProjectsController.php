@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 class ProjectsController extends Controller
 {
     /**
+     * ProjectsController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -25,7 +33,7 @@ class ProjectsController extends Controller
      */
     public function create()
     {
-        //
+        return view('projects.create');
     }
 
     /**
@@ -36,7 +44,16 @@ class ProjectsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $project = Project::create([
+            'user_id' => auth()->id(),
+            'name' => request('name'),
+            'project_description' => request('project_description'),
+            'start_date' => request('start_date'),
+            'due_date' => request('due_date'),
+            'status' => request('status')
+        ]);
+
+        return redirect($project->path());
     }
 
     /**
