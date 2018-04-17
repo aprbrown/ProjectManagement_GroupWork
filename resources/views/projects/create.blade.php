@@ -21,12 +21,12 @@
 
                                 <div class="form-group">
                                     <label for="start_date">Start Date:</label>
-                                    <input name="start_date" id="start_date" type="date" required>
+                                    <input name="start_date" id="start_date" type="date" placeholder="yyyy-mm-dd" required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label  for="due_date">Due Date:</label>
-                                    <input name="due_date" id="due_date" type="date" required>
+                                    <label for="due_date">Due Date:</label>
+                                    <input name="due_date" id="due_date" type="date" placeholder="yyyy-mm-dd" required>
                                 </div>
 
                                 <div class="form-group">
