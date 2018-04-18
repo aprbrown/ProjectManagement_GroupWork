@@ -16,7 +16,7 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('user_id')->comment = "Project Manager";
+            $table->unsignedInteger('user_id')->comment = "Project Manager";
             $table->date('start_date');
             $table->date('due_date');
             $table->text('project_description');

@@ -15,8 +15,8 @@ class CreateTasksTable extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('project_id');
-            $table->integer('user_id')->comment = "User who created task";
+            $table->unsignedInteger('project_id');
+            $table->unsignedInteger('user_id')->comment = "User who created task";
             $table->string('name');
             $table->enum('status', ['backlog', 'in_progress', 'completed'])->nullable(false);
             $table->date('start_date');
