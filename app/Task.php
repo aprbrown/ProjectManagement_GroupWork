@@ -6,32 +6,26 @@ use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'tasks';
-    protected $fillable = ['status', 'start_date', 'due_date', 'priority'];
     protected $guarded = [];
 
     public function path() {
-        return '/tasks/' . $this->id;
+        return "/projects/{$this->project->slug}/tasks/{$this->id}";
     }
 
     public function comments() {
-        return $this->hasMany(TaskComment::class);
+        return $this->hasMany(Comment::class);
     }
 
-    public function taskCreator() {
+    public function creator() {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function addComment($comment) {
-        $this->comments()->create($comment);
+    public function project() {
+        return $this->belongsTo(Project::class);
     }
 
-    public function commentCount() {
-        return $this->hasMany(TaskComment::class)->count();
+    public function addComment($comment)
+    {
+        $this->comments()->create($comment);
     }
 }

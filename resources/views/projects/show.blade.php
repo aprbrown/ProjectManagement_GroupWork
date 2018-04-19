@@ -1,29 +1,35 @@
 @extends('layouts.app')
 
 @section('content')
-    @if(auth()->check())
+    @if (auth()->check())
         <div class="container">
             <div class="row">
-                <div class="col-md-10 col-md-offset-2">
-                    <div class="card">
+                <div class="col-md-12">
+                    <div class="card mb-5">
                         <div class="card-header">
-                            <div class="h2">Project Name: {{ $project->name }}</div>
-                            <div class="p-0">
-                                Project Manager: {{ $project->projectManager->name }}
-                            </div>
+                            <div class="h2">{{ $project->name }} </div>
+                            <div class="blockquote-footer">Project Manager: <a href="#">{{ $project->creator->name }}</a></div>
                         </div>
-
-                        <div class="card-body">
-                            {{ $project->project_description }}
-                        </div>
-
-                        <div class="card-body">
-                            <hr>
-                            <div class="dropdown">
-
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        <div class="card-body d-flex">
+                            <span class="dropdown mr-auto p-2">
+                                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Project Status
+                                    @switch($project->status)
+                                        @case('backlog')
+                                        Backlog
+                                        @break
+
+                                        @case('in_progress')
+                                        In Progress
+                                        @break
+
+                                        @case('completed')
+                                        Completed
+                                        @break
+
+                                        @default
+                                        <span>Unknown Status</span>
+                                    @endswitch
                                 </button>
 
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -31,72 +37,97 @@
                                     <a class="dropdown-item" href="#">In Progress</a>
                                     <a class="dropdown-item" href="#">Completed</a>
                                 </div>
+                            </span>
 
-                                @switch($project->status)
-                                    @case('backlog')
-                                    <span>Backlog</span>
-                                    @break
+                            <span class="alert p-2">Start Date: {{ $project->start_date }}</span>
+                            <span class="alert p-2">Due Date: {{ $project->due_date }}</span>
 
-                                    @case('in_progress')
-                                    <span>In Progress</span>
-                                    @break
 
-                                    @case('completed')
-                                    <span>Completed</span>
-                                    @break
 
-                                    @default
-                                    <span>Unknown Status</span>
-                                @endswitch
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-header bg-danger d-flex justify-content-between">
+                                    <div class="h2">Backlog</div>
+                                    <div class="h2">
+                                        <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#backlog"
+                                                aria-expanded="false" aria-controls="backlog">
+                                            {{ $project->tasks->where('status', '=', 'backlog')->count() }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="collapse" id="backlog">
+                                @foreach($project->tasks->where('status', '=', 'backlog') as $task)
+                                    <div class="card mb-3">
+                                        <div class="card-header">
+                                            <a href="{{ $task->path() }}">
+                                                {{ $task->name }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
 
-                        <div class="card-footer">
-                            <div class="">
-                                <a class="btn btn-primary" data-toggle="collapse" href="#backlogCollapse" role="button"
-                                   aria-expanded="false" aria-controls="backlogCollapse">
-                                    Backlog <span class="badge badge-light">{{ $project->statusCount('backlog') }}</span>
-                                </a>
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-header bg-warning d-flex justify-content-between">
+                                    <div class="h2">In Progress</div>
+                                    <div class="h2">
+                                        <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#in_progress"
+                                                aria-expanded="false" aria-controls="in_progress">
+                                            {{ $project->tasks->where('status', '=', 'in_progress')->count() }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
 
-                                <a class="btn btn-primary" data-toggle="collapse" href="#inProgressCollapse" role="button"
-                                   aria-expanded="false" aria-controls="inProgressCollapse">
-                                    In Progress <span class="badge badge-light">{{ $project->statusCount('in_progress') }}</span>
-                                </a>
+                            <div class="collapse" id="in_progress">
+                                @foreach($project->tasks->where('status', '=', 'in_progress') as $task)
+                                    <div class="card mb-3">
+                                        <div class="card-header">
+                                            <a href="{{ $task->path() }}">
+                                                {{ $task->name }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
 
-                                <a class="btn btn-primary" data-toggle="collapse" href="#completedCollapse" role="button"
-                                   aria-expanded="false" aria-controls="completedCollapse">
-                                    Completed <span class="badge badge-light">{{ $project->statusCount('completed') }}</span>
-                                </a>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-header bg-success d-flex justify-content-between">
+                                    <div class="h2">Completed</div>
+                                    <div class="h2">
+                                        <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#completed"
+                                                aria-expanded="false" aria-controls="completed">
+                                            {{ $project->tasks->where('status', '=', 'completed')->count() }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="collapse" id="completed">
+                                @foreach($project->tasks->where('status', '=', 'completed') as $task)
+                                    <div class="card mb-3">
+                                        <div class="card-header">
+                                            <a href="{{ $task->path() }}">
+                                                {{ $task->name }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            @include('projects._taskgroups', [
-                'collapseCall' => 'backlogCollapse',
-                'statusTitle'=>'Backlog',
-                'statusType'=>'backlog',
-                'methodCall'=>'tasksInBacklog',
-                'emptyListAlert'=>'There are no tasks in the backlog'
-            ])
-
-            @include('projects._taskgroups', [
-                'collapseCall' => 'inProgressCollapse',
-                'statusTitle'=>'In Progress',
-                'statusType'=>'in_progress',
-                'methodCall'=>'tasksInProgress',
-                'emptyListAlert'=>'There are no tasks in progress'
-            ])
-
-            @include('projects._taskgroups', [
-                'collapseCall' => 'completedCollapse',
-                'statusTitle'=>'Completed',
-                'statusType'=>'completed',
-                'methodCall'=>'tasksCompleted',
-                'emptyListAlert'=>'There are no completed tasks'
-            ])
-
         </div>
     @else
         @include('auth.login')

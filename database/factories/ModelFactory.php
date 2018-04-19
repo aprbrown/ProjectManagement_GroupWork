@@ -22,38 +22,53 @@ $factory->define(App\User::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Project::class, function ($faker) {
-    $startingDate = $faker->dateTimeBetween('this week', '+90 days');
-    $dueDate = $faker->dateTimeBetween('+120 days', '+300 day');
-
-   return [
-       'name' => $faker->sentence,
-       'user_id' => function() {
-            return factory('App\User')->create()->id;
-       },
-       'start_date' => $startingDate,
-       'due_date' => $dueDate,
-       'project_description' => $faker->paragraph,
-       'status' => $faker->randomElement(['backlog', 'in_progress'])
-   ];
-});
-
-$factory->define(App\Task::class, function ($faker) {
+$factory->define(App\Task::class, function (Faker $faker) {
     $startingDate = $faker->dateTimeBetween('+1 day', '+6 day');
     $dueDate = $faker->dateTimeBetween('+9 days', '+20 day');
 
-   return [
-       'project_id' => function() {
-           return factory('App\Project')->create()->id;
-       },
-       'user_id' => function() {
-           return factory('App\User')->create()->id;
-       },
-       'name' => $faker->sentence,
-       'status' => $faker->randomElement(['backlog', 'in_progress', 'completed']),
-       'start_date' => $startingDate,
-       'due_date' => $dueDate,
-       'priority' => $faker->randomElement(['low', 'normal', 'high']),
-       'description' => $faker->paragraph
-   ];
+    return [
+        'user_id' => function() {
+            return factory('App\User')->create()->id;
+        },
+        'project_id'=> function() {
+            return factory('App\Project')->create()->id;
+        },
+        'name' => $faker->sentence,
+        'description' => $faker->paragraph,
+        'status' => $faker->randomElement(['backlog', 'in_progress', 'completed']),
+        'priority' => $faker->randomElement(['low', 'normal', 'high']),
+        'start_date' => $startingDate,
+        'due_date' => $dueDate
+    ];
+});
+
+$factory->define(App\Project::class, function (Faker $faker) {
+    $startingDate = $faker->dateTimeBetween('this week', '+90 days');
+    $dueDate = $faker->dateTimeBetween('+120 days', '+300 days');
+    $name = $faker->word;
+    return [
+        'name' => $name,
+        'slug' => $name,
+        'user_id' => function() {
+            return factory('App\User')->create()->id;
+        },
+        'start_date' => $startingDate,
+        'due_date' => $dueDate,
+        'description' => $faker->paragraph,
+        'status' => $faker->randomElement(['backlog', 'in_progress'])
+    ];
+});
+
+
+
+$factory->define(App\Comment::class, function (Faker $faker) {
+    return [
+        'task_id' => function() {
+            return factory('App\Task')->create()->id;
+        },
+        'user_id' => function() {
+            return factory('App\User')->create()->id;
+        },
+        'comment' => $faker->paragraph
+    ];
 });

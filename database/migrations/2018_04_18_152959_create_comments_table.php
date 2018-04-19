@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTaskCommentsTable extends Migration
+class CreateCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateTaskCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('task_comments', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('task_id');
             $table->unsignedInteger('user_id');
-            $table->text('body');
+            $table->text('comment');
             $table->timestamps();
 
             $table->engine = 'InnoDB';
@@ -33,6 +33,6 @@ class CreateTaskCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('task_comments');
+        Schema::dropIfExists('comments');
     }
 }

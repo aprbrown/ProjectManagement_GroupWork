@@ -14,8 +14,7 @@
                         </div>
                     @endif
 
-                    <a href="/projects">View All Projects</a>
-
+                    You are logged in!
                 </div>
             </div>
         </div>

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Project;
+use App\Comment;
+use App\Task;
 use Illuminate\Http\Request;
 
-class ProjectsController extends Controller
+class CommentController extends Controller
 {
     /**
-     * ProjectsController constructor.
+     * CommentController constructor.
      */
     public function __construct()
     {
@@ -22,8 +23,7 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        $projects = Project::latest()->get();
-        return view('projects.index', compact('projects'));
+        //
     }
 
     /**
@@ -33,7 +33,7 @@ class ProjectsController extends Controller
      */
     public function create()
     {
-        return view('projects.create');
+        //
     }
 
     /**
@@ -42,40 +42,36 @@ class ProjectsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($projectId, Task $task)
     {
-        $project = Project::create([
-            'user_id' => auth()->id(),
-            'name' => request('name'),
-            'project_description' => request('project_description'),
-            'start_date' => request('start_date'),
-            'due_date' => request('due_date'),
-            'status' => request('status')
+        $this->validate(request(), ['comment' => 'required']);
+
+        $task->addComment([
+            'comment' => request('comment'),
+            'user_id' => auth()->id()
         ]);
 
-        return redirect($project->path());
+        return back();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Project  $project
+     * @param  \App\Comment  $comments
      * @return \Illuminate\Http\Response
      */
-    public function show(Project $project)
+    public function show(Comment $comments)
     {
-        return view('projects.show', compact('project'));
+        //
     }
-
-
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Project  $project
+     * @param  \App\Comment  $comments
      * @return \Illuminate\Http\Response
      */
-    public function edit(Project $project)
+    public function edit(Comment $comments)
     {
         //
     }
@@ -84,21 +80,21 @@ class ProjectsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Project  $project
+     * @param  \App\Comment  $comments
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
+    public function update(Request $request, Comment $comments)
     {
-        $project->update(request(['status', 'start_date', 'due_date']));
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Project  $project
+     * @param  \App\Comment  $comments
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Project $project)
+    public function destroy(Comment $comments)
     {
         //
     }

@@ -4,12 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class taskComment extends Model
+class Comment extends Model
 {
-    protected $guarded =[];
+    protected $guarded = [];
 
-    public function owner()
-    {
+    public function owner() {
         return $this->belongsTo(User::class, 'user_id');
     }
 }

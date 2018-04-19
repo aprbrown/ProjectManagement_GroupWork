@@ -12,21 +12,22 @@
 */
 
 Route::get('/', function () {
-    $projects = DB::table('projects')->get();
-
-    return view('welcome', compact('projects'));
-
+    return view('welcome');
 });
-
-
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('projects', 'ProjectsController');
+Route::get('/projects', 'ProjectController@index');
+Route::get('/projects/{project}', 'ProjectController@show');
+//Route::get('')
+
+Route::get('/tasks', 'TaskController@index');
+Route::get('/tasks/create', 'TaskController@create');
+Route::get('/projects/{project}/tasks/{task}', 'TaskController@show');
+Route::post('/tasks', 'TaskController@store');
 
 
-Route::get('/tasks', 'TasksController@index');
-Route::get('/tasks/{task}', 'TasksController@show');
-Route::post('/tasks/{task}/comments', 'TaskCommentController@store');
+
+Route::post('/projects/{project}/tasks/{task}/comments', 'CommentController@store');
