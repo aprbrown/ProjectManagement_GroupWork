@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Project;
+use Illuminate\Filesystem\Cache;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,7 +16,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         \View::composer('*', function($view) {
-            $view->with('projects', \App\Project::all());
+            $projects = \Cache::rememberForever('projects', function() {
+                return Project::all();
+            });
+            $view->with('projects', $projects);
         });
     }
 

@@ -29,6 +29,6 @@ Route::get('/tasks/create', 'TaskController@create');
 Route::get('/projects/{project}/tasks/{task}', 'TaskController@show');
 Route::post('/tasks', 'TaskController@store');
 
-
+Route::get('/profiles/{user}', 'ProfilesController@show');
 
 Route::post('/projects/{project}/tasks/{task}/comments', 'CommentController@store');

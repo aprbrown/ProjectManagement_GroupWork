@@ -26,4 +26,47 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'name';
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+
+    public function tasksInBacklog()
+    {
+        return $this->hasMany(Task::class)->where('status', '=', 'backlog');
+    }
+
+    public function backlogCount()
+    {
+        return $this->tasksInBacklog()->count();
+    }
+
+    public function tasksInProgress()
+    {
+        return $this->hasMany(Task::class)->where('status', '=', 'in_progress');
+    }
+
+    public function inProgressCount()
+    {
+        return $this->tasksInProgress()->count();
+    }
+
+    public function tasksCompleted()
+    {
+        return $this->hasMany(Task::class)->where('status', '=', 'completed');
+    }
+
+    public function completedCount()
+    {
+        return $this->tasksCompleted()->count();
+    }
 }

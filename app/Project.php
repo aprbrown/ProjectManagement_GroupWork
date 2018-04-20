@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
     protected $guarded = [];
+//    protected $with = ['tasks'];
+    protected $dates = [
+        'start_date',
+        'due_date'
+    ];
 
     public function path() {
         return "/projects/{$this->slug}";

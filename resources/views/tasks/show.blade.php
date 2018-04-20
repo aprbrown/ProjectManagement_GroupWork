@@ -12,7 +12,7 @@
                             </div>
 
                             <div class="blockquote-footer">
-                                Created By: <a href="#">{{ $task->creator->name }}</a>
+                                Created By: <a href="/profiles/{{ $task->creator->name }}">{{ $task->creator->name }}</a>
                             </div>
                         </div>
 
@@ -21,57 +21,57 @@
                         </div>
 
                         <div class="card-footer d-flex justify-content-between">
-                            <span>Start Date: {{ $task->start_date }}</span>
-                            <span>Due Date: {{ $task->due_date }}</span>
+                            <span>Start Date: {{ $task->start_date->toFormattedDateString() }}</span>
+                            <span>Due Date: {{ $task->due_date->toFormattedDateString() }}</span>
                             <span>
-                            Status:
-                                @switch($task->status)
-                                    @case('backlog')
-                                    <span>Backlog</span>
-                                    @break
+                                Status:
+                                    @switch($task->status)
+                                        @case('backlog')
+                                        <span>Backlog</span>
+                                        @break
 
-                                    @case('in_progress')
-                                    <span>In Progress</span>
-                                    @break
+                                        @case('in_progress')
+                                        <span>In Progress</span>
+                                        @break
 
-                                    @case('completed')
-                                    <span>Completed</span>
-                                    @break
+                                        @case('completed')
+                                        <span>Completed</span>
+                                        @break
 
-                                    @default
-                                    <span>Unknown Status</span>
-                                @endswitch
-                        </span>
+                                        @default
+                                        <span>Unknown Status</span>
+                                    @endswitch
+                            </span>
 
                             <span>
-                            Priority:
-                                @switch($task->priority)
-                                    @case('low')
-                                    <span>Low</span>
-                                    @break
+                                Priority:
+                                    @switch($task->priority)
+                                        @case('low')
+                                        <span>Low</span>
+                                        @break
 
-                                    @case('normal')
-                                    <span>Normal</span>
-                                    @break
+                                        @case('normal')
+                                        <span>Normal</span>
+                                        @break
 
-                                    @case('high')
-                                    <span>High</span>
-                                    @break
+                                        @case('high')
+                                        <span>High</span>
+                                        @break
 
-                                    @default
-                                    <span>Unknown Status</span>
-                                @endswitch
-                        </span>
-                        </div>
+                                        @default
+                                        <span>Unknown Status</span>
+                                    @endswitch
+                                </span>
+                            </div>
                     </div>
 
-
-
-                    @foreach($task->comments as $comment)
+                    @foreach($comments as $comment)
 
                         @include('tasks.comment')
 
                     @endforeach
+
+                    {{ $comments->links() }}
 
                     <div class="card mb-3">
                         <div class="card-body">
@@ -90,10 +90,10 @@
 
 
                 <div class="col col-md-4">
-                    <div class="card">
+                    <div class="card mb-3">
                         <div class="card-header d-flex flex-column">
                             <span class="p-2">Project: <a href="{{ $task->project->path() }}">{{ $task->project->name }}</a></span>
-                            <span class="p-2">Manager: <a href="#">{{ $task->project->creator->name }}</a></span>
+                            <span class="p-2">Manager: <a href="/profiles/{{ $task->project->creator->name }}">{{ $task->project->creator->name }}</a></span>
                             <span class="p-2">Status:
                                 @switch($task->project->status)
                                     @case('backlog')
@@ -112,8 +112,14 @@
                                     <span>Unknown Status</span>
                                 @endswitch
                         </span>
-                            <span class="p-2">Start Date: {{ $task->project->start_date }}</span>
-                            <span class="p-2">Due Date: {{ $task->project->due_date }}</span>
+                            <span class="p-2">Start Date: {{ $task->project->start_date->toFormattedDateString() }}</span>
+                            <span class="p-2">Due Date: {{ $task->project->due_date->toFormattedDateString() }}</span>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-header d-flex flex-column">
+                            <span class="p-2">This task has {{ $task->comments_count }} {{ str_plural('comment', $task->comments_count) }}.</span>
                         </div>
                     </div>
                 </div>

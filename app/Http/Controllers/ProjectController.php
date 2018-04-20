@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Project;
 use App\Task;
+use Illuminate\Filesystem\Cache;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -48,8 +49,7 @@ class ProjectController extends Controller
             'description' => 'required',
             'status' => 'required',
             'start_date' => 'required',
-            'due_date' => 'required',
-            'status' => 'required'
+            'due_date' => 'required'
         ]);
 
         $project = Project::create([
@@ -62,6 +62,7 @@ class ProjectController extends Controller
             'status' => request('status')
         ]);
 
+        \Cache::flush();
         return redirect($project->path());
     }
 

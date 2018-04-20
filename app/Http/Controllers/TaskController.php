@@ -26,9 +26,9 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasksInBacklog = Task::where('status', '=', 'backlog')->get();
-        $tasksInProgress = Task::where('status', '=', 'in_progress')->get();
-        $tasksCompleted = Task::where('status', '=', 'completed')->get();
+        $tasksInBacklog = Task::with('project')->where('status', '=', 'backlog')->get();
+        $tasksInProgress = Task::with('project')->where('status', '=', 'in_progress')->get();
+        $tasksCompleted = Task::with('project')->where('status', '=', 'completed')->get();
 
         return view('tasks.index', compact('tasksInBacklog', 'tasksInProgress', 'tasksCompleted'));
     }
@@ -83,9 +83,10 @@ class TaskController extends Controller
      */
     public function show($projectID, Task $task)
     {
-
-
-        return view('tasks.show', compact('task'));
+        return view('tasks.show', [
+            'task' => $task,
+            'comments' => $task->comments()->paginate(10)
+        ]);
     }
 
     /**

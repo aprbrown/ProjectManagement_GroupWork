@@ -18,8 +18,8 @@ class CreateProjectsTable extends Migration
             $table->unsignedInteger('user_id');
             $table->string('name');
             $table->string('slug');
-            $table->date('start_date');
-            $table->date('due_date');
+            $table->dateTime('start_date');
+            $table->dateTime('due_date');
             $table->text('description');
             $table->enum('status', ['backlog', 'in_progress', 'completed'])->nullable(false);
             $table->timestamps();
