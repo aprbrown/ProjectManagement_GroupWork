@@ -83,6 +83,8 @@ class TaskController extends Controller
      */
     public function show($projectID, Task $task)
     {
+
+
         return view('tasks.show', compact('task'));
     }
 
