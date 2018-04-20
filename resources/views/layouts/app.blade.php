@@ -33,14 +33,25 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
+                    @guest
+
+                    @else
                     <ul class="navbar-nav mr-auto">
+                        <li class="nav-item nav-link">
+                            <a href="/projects/create">New Project</a>
+                        </li>
+
+                        <li class="nav-item nav-link">
+                            <a href="/tasks/create">New Task</a>
+                        </li>
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="projectsDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Projects
                             </a>
                             <div class="dropdown-menu" aria-labelledby="projectsDropdown">
-                                @foreach(App\Project::all() as $project)
+                                @foreach($projects as $project)
                                     <a class="dropdown-item" href="/projects/{{ $project->slug }}">
                                         {{ $project->name }}
                                     </a>
@@ -58,11 +69,8 @@
                                 <a class="dropdown-item" href="/tasks">All Tasks</a>
                             </div>
                         </li>
-
-                        <li class="nav-item nav-link">
-                            <a href="/tasks/create">New Task</a>
-                        </li>
                     </ul>
+                    @endguest
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">

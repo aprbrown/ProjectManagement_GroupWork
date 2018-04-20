@@ -20,8 +20,9 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/projects', 'ProjectController@index');
+Route::get('/projects/create', 'ProjectController@create');
 Route::get('/projects/{project}', 'ProjectController@show');
-//Route::get('')
+Route::post('/projects', 'ProjectController@store');
 
 Route::get('/tasks', 'TaskController@index');
 Route::get('/tasks/create', 'TaskController@create');

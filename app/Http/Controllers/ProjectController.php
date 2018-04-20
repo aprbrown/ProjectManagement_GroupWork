@@ -29,7 +29,8 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('projects.create');
+
     }
 
     /**
@@ -40,7 +41,28 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $slug = str_slug(request('name'),"-");
+
+        $this->validate($request, [
+            'name' => 'required',
+            'description' => 'required',
+            'status' => 'required',
+            'start_date' => 'required',
+            'due_date' => 'required',
+            'status' => 'required'
+        ]);
+
+        $project = Project::create([
+            'user_id' => auth()->id(),
+            'name' => request('name'),
+            'slug' => $slug,
+            'description' => request('description'),
+            'start_date' => request('start_date'),
+            'due_date' => request('due_date'),
+            'status' => request('status')
+        ]);
+
+        return redirect($project->path());
     }
 
     /**
