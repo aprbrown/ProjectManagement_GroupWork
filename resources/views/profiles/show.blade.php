@@ -96,7 +96,7 @@
                         </div>
                     </div>
                     @foreach($activities as $activity)
-                        @if(view()->exists("profiles.activities.{$record->type}"))
+                        @if(view()->exists("profiles.activities.{$activity->type}"))
                             @include ("profiles.activities.{$activity->type}")
                         @endif
                     @endforeach
