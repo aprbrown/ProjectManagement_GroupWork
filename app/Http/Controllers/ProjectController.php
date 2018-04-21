@@ -63,7 +63,7 @@ class ProjectController extends Controller
         ]);
 
         \Cache::flush();
-        return redirect($project->path());
+        return redirect($project->path())->with('flash', 'The project has been created');
     }
 
     /**

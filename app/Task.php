@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
+    use RecordsActivity;
+
     protected $guarded = [];
-    protected $with = ['creator', 'comments'];
+    protected $with = ['creator', 'comments', 'project'];
     protected $dates = [
         'start_date',
         'due_date'
@@ -22,6 +24,10 @@ class Task extends Model
         static::addGlobalScope('commentCount', function($builder) {
             $builder->withCount('comments');
         });
+
+        static::deleting(function($task) {
+            $task->comments->each->delete();
+            });
     }
 
     public function path() {

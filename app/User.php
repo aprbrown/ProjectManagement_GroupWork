@@ -69,4 +69,10 @@ class User extends Authenticatable
     {
         return $this->tasksCompleted()->count();
     }
+
+    public function activity()
+    {
+        return $this->hasMany(Activity::class);
+
+    }
 }

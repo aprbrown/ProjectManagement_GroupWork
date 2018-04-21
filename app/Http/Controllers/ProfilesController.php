@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -50,7 +51,8 @@ class ProfilesController extends Controller
             'profileUser' => $user,
             'backlogTasks' => $user->tasksInBacklog()->paginate(5),
             'inProgressTasks' => $user->tasksInProgress()->paginate(5),
-            'completedTasks' => $user->tasksCompleted()->paginate(5)
+            'completedTasks' => $user->tasksCompleted()->paginate(5),
+            'allActivities' => Activity::feed($user)
         ]);
     }
 

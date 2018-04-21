@@ -72,7 +72,8 @@ class TaskController extends Controller
             'priority' => request('priority')
         ]);
 
-        return redirect($task->path());
+        return redirect($task->path())
+            ->with('flash', 'The task has been created');
     }
 
     /**
@@ -115,11 +116,21 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Task  $task
-     * @return \Illuminate\Http\Response
+     * @param $project
+     * @param  \App\Task $task
+     * @return void
+     * @throws \Exception
      */
-    public function destroy(Task $task)
+    public function destroy($project, Task $task)
     {
-        //
+        $this->authorize('update', $task);
+
+        $task->delete();
+
+        if(request()->wantsJson()) {
+            return response([], 204);
+        }
+
+        return redirect('/projects/'.$project);
     }
 }

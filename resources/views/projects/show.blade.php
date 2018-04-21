@@ -71,8 +71,14 @@
                                     <span>Unknown Status</span>
                                 @endswitch
                             </span>
-                                <span class="p-2">Start Date: {{ $project->start_date->diffForHumans() }}</span>
-                                <span class="p-2">Due Date: {{ $project->due_date->diffForHumans() }}</span>
+                                <span class="p-2">
+                                    Start Date: {{ $project->start_date->toFormattedDateString() }}
+                                    ({{ $project->start_date->diffForHumans() }})
+                                </span>
+                                <span class="p-2">
+                                    Due Date: {{ $project->due_date->toFormattedDateString() }}
+                                    ({{ $project->due_date->diffForHumans() }})
+                                </span>
                         </div>
                     </div>
                 </div>

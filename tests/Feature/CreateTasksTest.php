@@ -96,6 +96,37 @@ class CreateTasksTest extends TestCase
             ->assertSessionHasErrors('project_id');
     }
 
+    /** @test */
+    function a_task_can_be_deleted_by_task_creator()
+    {
+        $this->signIn();
+        $task = create('App\Task', ['user_id' => auth()->id()]);
+        $comment = create('App\Comment', ['task_id' => $task->id]);
+
+        $response = $this->json('DELETE', $task->path());
+
+        $response->assertStatus(204);
+
+        $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
+        $this->assertDatabaseMissing('comments', ['id' => $comment->id]);
+
+        $this->assertDatabaseMissing('activities', [
+            'subject_id' => $task->id,
+            'subject_type' => get_class($task)
+        ]);
+
+        $this->assertDatabaseMissing('activities', [
+            'subject_id' => $comment->id,
+            'subject_type' => get_class($comment)
+        ]);
+    }
+
+//    /** @test */
+//    function tasks_may_only_be_deleted_by_those_with_permission()
+//    {
+//
+//    }
+
     function createTask($overrides = [])
     {
         $this->withExceptionHandling()->signIn();

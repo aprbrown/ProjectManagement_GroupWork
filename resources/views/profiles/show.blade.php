@@ -71,9 +71,9 @@
                 {{ $completedTasks->links() }}
             </div>
             <div class="col col-md-4">
-                <div class="card">
+                <div class="card mb-3">
                     <div class="card-header">
-                        <h4 class="h4">User Stats</h4>
+                        <span class="h4">User Stats</span>
                     </div>
                     <div class="card-body">
                         <div class="d-flex flex-column">
@@ -83,6 +83,24 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="card mb-1">
+                    <div class="card-header">
+                        <span class="h4">User Activity</span>
+                    </div>
+                </div>
+                @foreach($allActivities as $date => $activities)
+                    <div class="card mb-1">
+                        <div class="card-header">
+                            <span class="h5">{{ $date }}</span>
+                        </div>
+                    </div>
+                    @foreach($activities as $activity)
+                        @if(view()->exists("profiles.activities.{$record->type}"))
+                            @include ("profiles.activities.{$activity->type}")
+                        @endif
+                    @endforeach
+                @endforeach
             </div>
         </div>
     </div>

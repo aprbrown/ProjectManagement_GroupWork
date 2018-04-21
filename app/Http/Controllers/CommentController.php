@@ -51,7 +51,7 @@ class CommentController extends Controller
             'user_id' => auth()->id()
         ]);
 
-        return back();
+        return back()->with('flash', 'Your comment has been posted');
     }
 
     /**

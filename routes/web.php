@@ -27,6 +27,7 @@ Route::post('/projects', 'ProjectController@store');
 Route::get('/tasks', 'TaskController@index');
 Route::get('/tasks/create', 'TaskController@create');
 Route::get('/projects/{project}/tasks/{task}', 'TaskController@show');
+Route::delete('/projects/{project}/tasks/{task}', 'TaskController@destroy');
 Route::post('/tasks', 'TaskController@store');
 
 Route::get('/profiles/{user}', 'ProfilesController@show');
