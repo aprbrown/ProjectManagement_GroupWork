@@ -79,23 +79,34 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Comment  $comments
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Comment $comment
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(Request $request, Comment $comments)
+    public function update(Request $request, Comment $comment)
     {
-        //
+        $this->authorize('update', $comment);
+
+        $comment->update(['comment' => request('body')]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Comment  $comments
+     * @param Comment $comment
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function destroy(Comment $comments)
+    public function destroy(Comment $comment)
     {
-        //
+        $this->authorize('update', $comment);
+        $comment->delete();
+
+        if (request()->expectsJson()) {
+            return response(['status' => 'Comment Deleted']);
+        }
+
+        return back();
     }
 }

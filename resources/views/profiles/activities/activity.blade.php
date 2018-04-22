@@ -4,6 +4,6 @@
     </div>
 
     <div class="card-body">
-        {{ $body }}
+        {{ str_limit($body, $words = 50, $end = '...') }}
     </div>
 </div>

@@ -33,3 +33,5 @@ Route::post('/tasks', 'TaskController@store');
 Route::get('/profiles/{user}', 'ProfilesController@show');
 
 Route::post('/projects/{project}/tasks/{task}/comments', 'CommentController@store');
+Route::patch('/comments/{comment}', 'CommentController@update');
+Route::delete('/comments/{comment}', 'CommentController@destroy');

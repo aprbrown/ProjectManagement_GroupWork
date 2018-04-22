@@ -46,4 +46,56 @@ class CommentOnTasksTest extends TestCase
             ->assertSessionHasErrors('comment');
     }
 
+    /** @test */
+    function unauthorised_users_cannot_delete_comments()
+    {
+        $this->withExceptionHandling();
+        $comment = create('App\Comment');
+
+        $this->delete("/comments/{$comment->id}")
+            ->assertRedirect('login');
+
+        $this->signIn()
+            ->delete("/comments/{$comment->id}")
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    function authorised_users_can_delete_comments()
+    {
+        $this->signIn();
+        $comment = create('App\Comment', ['user_id' => auth()->id()]);
+
+        $this->delete("/comments/{$comment->id}")->assertStatus(302);
+
+        $this->assertDatabaseMissing('comments', ['id' => $comment->id]);
+
+    }
+
+    /** @test */
+    function unauthorised_users_cannot_update_comments()
+    {
+        $this->withExceptionHandling();
+        $comment = create('App\Comment');
+
+        $this->patch("/comments/{$comment->id}")
+            ->assertRedirect('login');
+
+        $this->signIn()
+            ->patch("/comments/{$comment->id}")
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    function authorised_users_can_update_comments()
+    {
+        $this->signIn();
+        $comment = create('App\Comment', ['user_id' => auth()->id()]);
+
+        $updatedComment = 'This has been changed';
+        $this->patch("/comments/{$comment->id}", ['body' => $updatedComment]);
+
+        $this->assertDatabaseHas('comments', ['id' => $comment->id, 'comment' => $updatedComment]);
+    }
+
 }

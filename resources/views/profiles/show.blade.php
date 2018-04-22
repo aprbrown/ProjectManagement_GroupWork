@@ -89,7 +89,7 @@
                         <span class="h4">User Activity</span>
                     </div>
                 </div>
-                @foreach($allActivities as $date => $activities)
+                @forelse($allActivities as $date => $activities)
                     <div class="card mb-1">
                         <div class="card-header">
                             <span class="h5">{{ $date }}</span>
@@ -100,7 +100,13 @@
                             @include ("profiles.activities.{$activity->type}")
                         @endif
                     @endforeach
-                @endforeach
+                    @empty
+                    <div class="card">
+                        <div class="card-body">
+                            No activity for this user yet
+                        </div>
+                    </div>
+                @endforelse
             </div>
         </div>
     </div>
