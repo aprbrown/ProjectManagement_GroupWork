@@ -104,13 +104,23 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Task  $task
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Task $task
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, Task $task)
     {
-        //
+        $this->authorize('update', $task);
+
+        $task->update([
+            'name' => request('title'),
+            'description' => request('body'),
+            'start_date' => request('startDate'),
+            'due_date' => request('dueDate'),
+            'status' => request('status'),
+            'priority' => request('priority')
+        ]);
     }
 
     /**

@@ -77,6 +77,12 @@ class ProjectController extends Controller
         return view('projects.show', compact('project'));
     }
 
+    public function chart(Project $project)
+    {
+        $tasks = Task::with('project')->where('project_id' ,'=', $project->id)->get();
+        return view('projects.chart', compact('tasks', 'project'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

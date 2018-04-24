@@ -13893,6 +13893,7 @@ __webpack_require__(16);
 
 Vue.component('flash', __webpack_require__(39));
 Vue.component('comment', __webpack_require__(52));
+Vue.component('task', __webpack_require__(60));
 
 var app = new Vue({
   el: '#app'
@@ -47843,6 +47844,99 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             $(this.$el).fadeOut(300, function () {
                 flash('The comment has been deleted');
             });
+        }
+    }
+});
+
+/***/ }),
+/* 54 */,
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(45)
+/* script */
+var __vue_script__ = __webpack_require__(61)
+/* template */
+var __vue_template__ = null
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Task.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5df6e888", Component.options)
+  } else {
+    hotAPI.reload("data-v-5df6e888", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 61 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['attributes'],
+    data: function data() {
+        return {
+            editing: false,
+            title: this.attributes.name,
+            body: this.attributes.description,
+            status: this.attributes.status,
+            priority: this.attributes.priority,
+            startDate: this.attributes.start_date,
+            dueDate: this.attributes.due_date
+        };
+    },
+
+
+    methods: {
+        update: function update() {
+            axios.patch('/tasks/' + this.attributes.id, {
+                title: this.title,
+                body: this.body,
+                status: this.status,
+                priority: this.priority,
+                startDate: this.startDate,
+                dueDate: this.dueDate
+            });
+
+            this.editing = false;
+
+            flash('Updated');
         }
     }
 });

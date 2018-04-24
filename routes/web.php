@@ -22,11 +22,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/projects', 'ProjectController@index');
 Route::get('/projects/create', 'ProjectController@create');
 Route::get('/projects/{project}', 'ProjectController@show');
+Route::get('/projects/{project}/chart', 'ProjectController@chart');
 Route::post('/projects', 'ProjectController@store');
 
 Route::get('/tasks', 'TaskController@index');
 Route::get('/tasks/create', 'TaskController@create');
 Route::get('/projects/{project}/tasks/{task}', 'TaskController@show');
+Route::patch('/tasks/{task}', 'TaskController@update');
 Route::delete('/projects/{project}/tasks/{task}', 'TaskController@destroy');
 Route::post('/tasks', 'TaskController@store');
 

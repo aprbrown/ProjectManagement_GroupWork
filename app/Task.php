@@ -11,7 +11,11 @@ class Task extends Model
     use RecordsActivity;
 
     protected $guarded = [];
-    protected $with = ['creator', 'comments', 'project'];
+    protected $with = [
+        'creator',
+        'comments',
+//        'project'
+    ];
     protected $dates = [
         'start_date',
         'due_date'

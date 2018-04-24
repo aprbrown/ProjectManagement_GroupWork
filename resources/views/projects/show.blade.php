@@ -6,8 +6,11 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="card mb-5">
-                        <div class="card-header">
-                            <div class="h2">{{ $project->name }} </div>
+                        <div class="card-header d-flex">
+                            <div class="h2 mr-auto">{{ $project->name }} </div>
+                            <form action="{{ $project->path().'/chart/' }}">
+                                <input class="btn btn-outline-primary" type="submit" value="Chart View">
+                            </form>
                         </div>
 
                         <div class="card-body">
