@@ -38,6 +38,11 @@ class Project extends Model
         return $this->hasMany(Task::class);
     }
 
+    public function taskCount()
+    {
+        return $this->hasMany(Task::class)->count();
+    }
+
     public function tasksForGantt()
     {
         return $this->hasMany(Task::class)->select(['name', 'start_date', 'due_date']);

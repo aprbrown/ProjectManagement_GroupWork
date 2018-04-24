@@ -146,11 +146,16 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col col-md-12">
-                <div id="chart_div"></div>
+
+            <div class="row">
+                <div class="col col-md-12">
+                    @if($project->taskCount() > 0)
+                        <div id="chart_div"></div>
+                    @else
+                        <div class="p-2">There are no tasks to build a chart with, go make some...</div>
+                    @endif
+                </div>
             </div>
-        </div>
     </div>
 
 @endsection
