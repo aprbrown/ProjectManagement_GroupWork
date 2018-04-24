@@ -15,6 +15,15 @@ class Project extends Model
         'due_date'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function($project) {
+            $project->tasks->each->delete();
+        });
+    }
+
     public function path() {
         return "/projects/{$this->slug}";
     }

@@ -16,9 +16,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         \View::composer('*', function($view) {
-            $projects = \Cache::rememberForever('projects', function() {
-                return Project::all();
-            });
+            $projects = Project::all();
             $view->with('projects', $projects);
         });
     }

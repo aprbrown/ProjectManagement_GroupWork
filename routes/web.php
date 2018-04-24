@@ -23,6 +23,8 @@ Route::get('/projects', 'ProjectController@index');
 Route::get('/projects/create', 'ProjectController@create');
 Route::get('/projects/{project}', 'ProjectController@show');
 Route::get('/projects/{project}/chart', 'ProjectController@chart');
+Route::patch('/projects/{project}', 'ProjectController@update');
+Route::delete('/projects/{project}', 'ProjectController@destroy');
 Route::post('/projects', 'ProjectController@store');
 
 Route::get('/tasks', 'TaskController@index');

@@ -128,7 +128,7 @@ class TaskController extends Controller
      *
      * @param $project
      * @param  \App\Task $task
-     * @return void
+     * @return \Illuminate\Http\Response
      * @throws \Exception
      */
     public function destroy($project, Task $task)

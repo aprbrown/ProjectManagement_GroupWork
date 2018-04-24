@@ -103,17 +103,35 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        $slug = str_slug(request('title'),"-");
+
+        $project->update([
+            'name' => request('title'),
+            'description' => request('body'),
+            'start_date' => request('startDate'),
+            'due_date' => request('dueDate'),
+            'status' => request('status'),
+            'slug' => $slug
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Project  $project
+     * @param  \App\Project $project
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Project $project)
     {
-        //
+        $this->authorize('update', $project);
+
+        $project->delete();
+
+        if(request()->wantsJson()) {
+            return response([], 204);
+        }
+
+        return redirect('/projects/');
     }
 }

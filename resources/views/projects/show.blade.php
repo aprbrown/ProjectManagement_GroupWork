@@ -5,56 +5,148 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
-                    <div class="card mb-5">
-                        <div class="card-header d-flex">
-                            <div class="h2 mr-auto">{{ $project->name }} </div>
-                            <form action="{{ $project->path().'/chart/' }}">
-                                <input class="btn btn-outline-primary" type="submit" value="Chart View">
-                            </form>
-                        </div>
+                    <project :attributes="{{ $project }}" inline-template v-cloak>
+                        <div class="card mb-5">
+                            <div class="card-header">
+                                <div class="d-flex">
+                                    <div class="flex-grow-1">
+                                        <div v-if="editing">
+                                            <textarea class="form-control" v-model="title"></textarea>
+                                        </div>
 
-                        <div class="card-body">
-                            <div>
-                                {{ $project->description }}
+                                        <div class="h3" v-else v-text="title"></div>
+                                    </div>
+
+                                    <div class="justify-content-end">
+                                        @can('update', $project)
+                                            <ul class="navbar-nav ml-auto">
+                                                <li class="nav-item dropdown">
+                                                    <a id="optionsDropdown" class="nav-link dropdown-toggle ml-3" href="#"
+                                                       role="button" data-toggle="dropdown" aria-haspopup="true"
+                                                       aria-expanded="false" v-pre>
+                                                        Options <span class="oi oi-cog"></span>
+                                                    </a>
+
+                                                    <div class="dropdown-menu" aria-labelledby="optionsDropdown">
+                                                        <a class="dropdown-item" href="#"
+                                                           @click="editing = true">
+                                                            Edit Project
+                                                        </a>
+
+                                                        <a class="dropdown-item text-danger" href="#"
+                                                           onclick="event.preventDefault();
+                                                        document.getElementById('deleteProject').submit()">
+                                                            Delete Project
+                                                        </a>
+                                                    </div>
+                                                </li>
+                                            </ul>
+
+                                            <form id="deleteProject" action="{{ $project->path() }}" method="POST">
+                                                {{ csrf_field() }}
+                                                {{ method_field('DELETE') }}
+                                            </form>
+                                        @endcan
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <div v-if="editing">
+                                    <div class="form-group">
+                                        <textarea class="form-control" v-model="body"></textarea>
+                                    </div>
+                                </div>
+
+                                <div v-else v-text="body"></div>
+                            </div>
+
+                            <div class="card-footer d-flex flex-column">
+                                <div class="row">
+                                    <div class="p-2">
+                                        <div v-if="editing">
+                                            <label for="start_date">Current Start Date: {{ $project->start_date->toFormattedDateString() }}</label>
+                                            <br>
+                                            <input name="start_date" id="start_date" type="date"
+                                                   value="{{ old('start_date') }}" placeholder="yyyy-mm-dd"  v-model="startDate">
+                                        </div>
+
+                                        <div v-else>
+                                            Start Date: {{ $project->start_date->toFormattedDateString() }}
+                                        </div>
+                                    </div>
+
+                                    <div class="p-2">
+                                        <div v-if="editing">
+                                            <label for="due_date">Current Due Date: {{ $project->due_date->toFormattedDateString() }}</label>
+                                            <br>
+                                            <input name="due_date" id="due_date" type="date" placeholder="yyyy-mm-dd"  v-model="dueDate">
+                                        </div>
+
+                                        <div v-else>
+                                            Due Date: {{ $project->due_date->toFormattedDateString() }}
+                                        </div>
+                                    </div>
+
+                                    <div class="p-2">
+                                        <div v-if="editing">
+                                            <select id="status" name="status" v-model="status">
+                                                <option value="">Status...</option>
+                                                <option value="backlog">Backlog</option>
+                                                <option value="in_progress">In Progress</option>
+                                                <option value="completed">Completed</option>
+                                            </select>
+                                        </div>
+
+                                        <div v-else>
+                                            Status:
+                                            @switch($project->status)
+                                                @case('backlog')
+                                                <span>Backlog</span>
+                                                @break
+
+                                                @case('in_progress')
+                                                <span>In Progress</span>
+                                                @break
+
+                                                @case('completed')
+                                                <span>Completed</span>
+                                                @break
+
+                                                @default
+                                                <span>Unknown Status</span>
+                                            @endswitch
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div v-if="editing">
+                                        <div class="d-flex justify-content-start">
+                                            <div class="p-2">
+                                                <button class="btn btn-primary" @click="update">Update</button>
+                                            </div>
+
+                                            <div class="p-2">
+                                                <button class="btn btn-outline-primary" @click="editing = false">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
-
-                        <div class="card-footer d-flex">
-                            <span class="dropdown mr-auto p-2">
-                                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    @switch($project->status)
-                                        @case('backlog')
-                                        Backlog
-                                        @break
-
-                                        @case('in_progress')
-                                        In Progress
-                                        @break
-
-                                        @case('completed')
-                                        Completed
-                                        @break
-
-                                        @default
-                                        <span>Unknown Status</span>
-                                    @endswitch
-                                </button>
-
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Backlog</a>
-                                    <a class="dropdown-item" href="#">In Progress</a>
-                                    <a class="dropdown-item" href="#">Completed</a>
-                                </div>
-                            </span>
-                        </div>
-
-                    </div>
+                    </project>
                 </div>
 
                 <div class="col-md-4">
                     <div class="card mb-3">
                         <div class="card-header d-flex flex-column">
+                            <form action="{{ $project->path().'/chart/' }}">
+                                <input class="btn btn-outline-primary" type="submit" value="Chart View">
+                            </form>
+
                             <span class="p-2">Manager: <a href="/profiles/{{ $project->creator->name }}">{{ $project->creator->name }}</a></span>
                             <span class="p-2">Status:
                                 @switch($project->status)
@@ -74,13 +166,13 @@
                                     <span>Unknown Status</span>
                                 @endswitch
                             </span>
-                                <span class="p-2">
+                            <span class="p-2">
                                     Start Date: {{ $project->start_date->toFormattedDateString() }}
-                                    ({{ $project->start_date->diffForHumans() }})
+                                ({{ $project->start_date->diffForHumans() }})
                                 </span>
-                                <span class="p-2">
+                            <span class="p-2">
                                     Due Date: {{ $project->due_date->toFormattedDateString() }}
-                                    ({{ $project->due_date->diffForHumans() }})
+                                ({{ $project->due_date->diffForHumans() }})
                                 </span>
                         </div>
                     </div>

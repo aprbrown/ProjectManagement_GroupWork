@@ -11,7 +11,7 @@
         }
 
         function drawChart() {
-            var myTasks = {!! json_encode($tasks->toArray()) !!};
+            var projectTasks = {!! json_encode($tasks->toArray()) !!};
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Task ID');
             data.addColumn('string', 'Task Name');
@@ -22,7 +22,7 @@
             data.addColumn('number', 'Percent Complete');
             data.addColumn('string', 'Dependencies');
 
-            myTasks.forEach(function (task) {
+            projectTasks.forEach(function (task) {
                 data.addRow([
                     task.name,
                     task.name,
@@ -66,9 +66,7 @@
                 <div class="card mb-5">
                     <div class="card-header d-flex">
                         <div class="h2 mr-auto">{{ $project->name }} </div>
-                        <form action="{{ $project->path() }}">
-                            <input class="btn btn-outline-primary" type="submit" value="Task View">
-                        </form>
+
                     </div>
 
                     <div class="card-body">
@@ -113,6 +111,9 @@
             <div class="col-md-4">
                 <div class="card mb-3">
                     <div class="card-header d-flex flex-column">
+                        <form action="{{ $project->path() }}">
+                            <input class="btn btn-outline-primary" type="submit" value="Task View">
+                        </form>
                         <span class="p-2">Manager: <a href="/profiles/{{ $project->creator->name }}">{{ $project->creator->name }}</a></span>
                         <span class="p-2">Status:
                             @switch($project->status)
