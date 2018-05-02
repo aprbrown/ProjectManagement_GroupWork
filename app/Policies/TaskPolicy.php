@@ -42,7 +42,7 @@ class TaskPolicy
      */
     public function update(User $user, Task $task)
     {
-        return $task->user_id == $user->id;
+        return ($task->user_id == $user->id || $user->hasRole("admin") || $user->hasRole("project_manager"));
     }
 
     /**

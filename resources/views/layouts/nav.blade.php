@@ -13,6 +13,7 @@
 
             @else
                 <ul class="navbar-nav mr-auto">
+                    @if(auth()->user()->hasRole("admin") || auth()->user()->hasRole("project_manager"))
                     <li class="nav-item nav-link">
                         <a href="/projects/create">New Project</a>
                     </li>
@@ -20,6 +21,7 @@
                     <li class="nav-item nav-link">
                         <a href="/tasks/create">New Task</a>
                     </li>
+                    @endif
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="projectsDropdown" role="button"
@@ -61,6 +63,9 @@
                         </a>
 
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            @if(auth()->user()->hasRole("admin"))
+                                <a class="dropdown-item" href="/admin">Admin</a>
+                            @endif
                             <a class="dropdown-item" href="{{ '/profiles/'.Auth::user()->name }}">My Profile</a>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();

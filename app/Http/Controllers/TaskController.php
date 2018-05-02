@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Task;
+use App\User;
 use Illuminate\Http\Request;
 
 /**
@@ -40,7 +41,8 @@ class TaskController extends Controller
      */
     public function create()
     {
-        return view('tasks.create');
+        $users = User::all();
+        return view('tasks.create', compact('users'));
     }
 
     /**
@@ -62,7 +64,7 @@ class TaskController extends Controller
         ]);
 
         $task = Task::create([
-            'user_id' => auth()->id(),
+            'user_id' => request('user_id'),
             'project_id' => request('project_id'),
             'name' => request('name'),
             'description' => request('description'),
@@ -84,10 +86,12 @@ class TaskController extends Controller
      */
     public function show($projectID, Task $task)
     {
+        $users = User::all();
+
         return view('tasks.show', [
             'task' => $task,
             'comments' => $task->comments()->paginate(10)
-        ]);
+        ], compact('users'));
     }
 
     /**
@@ -106,7 +110,7 @@ class TaskController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \App\Task $task
-     * @return \Illuminate\Http\Response
+     * @return void
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, Task $task)
@@ -119,7 +123,7 @@ class TaskController extends Controller
             'start_date' => request('startDate'),
             'due_date' => request('dueDate'),
             'status' => request('status'),
-            'priority' => request('priority')
+            'priority' => request('priority'),
         ]);
     }
 

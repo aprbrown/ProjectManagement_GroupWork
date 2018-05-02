@@ -17,8 +17,9 @@
                                         <div class="h3" v-else v-text="title"></div>
 
                                         <div class="blockquote-footer">
-                                            Created By: <a href="/profiles/{{ $task->creator->name }}">{{ $task->creator->name }}</a>
+                                            Assigned To: <a href="/profiles/{{ $task->creator->name }}">{{ $task->creator->name }}</a>
                                         </div>
+
                                     </div>
 
                                     <div class="justify-content-end">

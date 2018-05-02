@@ -26,10 +26,12 @@ class ProjectController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        $request->user()->authorizeRoles('admin', 'project_manager');
         return view('projects.create');
 
     }

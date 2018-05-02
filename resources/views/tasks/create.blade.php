@@ -23,6 +23,17 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <select name="user_id" id="user_id" class="form-control" required>
+                                        <option value="">Choose a user...</option>
+                                        @foreach($users as $user)
+                                            <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                                {{ $user->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
                                     <input name="name" type="text" class="form-control" id="name"
                                            value="{{ old('name') }}" placeholder="Task Name" required>
                                 </div>
