@@ -70,9 +70,9 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
         if ($user->id == 1) {
-            $user->role()->attach(Role::where('name', 'admin')->first());
+            $user->roles()->attach(Role::where('name', 'admin')->first());
         } else {
-            $user->role()->attach(Role::where('name', 'employee')->first());
+            $user->roles()->attach(Role::where('name', 'employee')->first());
         }
 
         return $user;
