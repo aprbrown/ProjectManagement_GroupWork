@@ -24,7 +24,7 @@
 
                                 <div class="form-group">
                                     <select name="user_id" id="user_id" class="form-control" required>
-                                        <option value="">Choose a user...</option>
+                                        <option value="">Assign To...</option>
                                         @foreach($users as $user)
                                             <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
                                                 {{ $user->name }}

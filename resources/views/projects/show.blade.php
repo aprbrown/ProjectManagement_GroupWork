@@ -101,6 +101,9 @@
 
                                         <div v-else>
                                             Status:
+                                            @if($project->start_date < now() && $project->status == 'backlog')
+                                                <span>Delayed</span>
+                                            @else
                                             @switch($project->status)
                                                 @case('backlog')
                                                 <span>Backlog</span>
@@ -117,6 +120,7 @@
                                                 @default
                                                 <span>Unknown Status</span>
                                             @endswitch
+                                                @endif
                                         </div>
                                     </div>
                                 </div>

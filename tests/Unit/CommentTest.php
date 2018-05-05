@@ -17,4 +17,13 @@ class CommentTest extends TestCase
 
         $this->assertInstanceOf('App\User', $comment->owner);
     }
+
+//Joe
+    /**@test */
+    public function testTask()
+    {
+        $comment = create('App\Comment');
+
+        $this->assertInstanceOf('App\Task', $comment->task);
+    }
 }

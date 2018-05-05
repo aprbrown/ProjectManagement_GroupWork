@@ -51,4 +51,14 @@ class Project extends Model
     public function creator() {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function getStartDate()
+    {
+        return $this->start_date;
+    }
+
+    public function getDueDate()
+    {
+        return $this->due_date;
+    }
 }

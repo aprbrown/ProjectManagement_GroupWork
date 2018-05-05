@@ -78,15 +78,19 @@
             @endif
 
             <div class="content">
-                <div class="title m-b-md">
-                    Team 15 Project App
+                <div class="jumbotron">
+                    <h1 class="display-4">North East Research Development & Coordination Organisation</h1>
+                    <h2 class="display-4">Project Management Tool</h2>
+                    <hr class="my-4">
+                    @auth()
+                    <p>Welcome to the NERDCO Project Management Tool, please use the navigation at the top of the screen</p>
+                    @endauth
+                    @guest
+                        <div class="m-b-md">
+                            Please <a href="/login">login</a> or <a href="/register">register</a>
+                        </div>
+                    @endguest
                 </div>
-                @guest
-                <div class="m-b-md">
-                    Please <a href="/login">login</a> or <a href="/register">register</a>
-                </div>
-                @endguest
-
             </div>
         </div>
     </body>
